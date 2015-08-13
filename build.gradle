@@ -1,0 +1,33 @@
+group 'uk.co.agilekatas.katas'
+version '1'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testRuntime
+    }
+}
+
+task cucumber() {
+    dependsOn assemble, compileTestJava
+    doLast {
+        javaexec {
+            main = "cucumber.api.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin', 'pretty', '--glue', 'uk.co.agilekatas.katas', 'src/test/resources']
+        }
+    }
+}
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    compile 'junit:junit:4.12'
+    compile 'org.assertj:assertj-core:2.0.0'
+    compile 'info.cukes:cucumber-java:1.2.2'
+    compile 'info.cukes:cucumber-junit:1.2.2'
+}
