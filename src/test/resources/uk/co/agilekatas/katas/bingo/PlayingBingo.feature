@@ -14,3 +14,13 @@ Feature: Playing Bingo
       | N      | 31          | 45          |
       | G      | 46          | 60          |
       | O      | 61          | 75          |
+
+  Scenario: Calling Bingo Numbers
+    Given I have a Bingo caller
+    When I call a number
+    Then the number is between 1 and 75 inclusive
+
+    Given I have a Bingo caller
+    When I call a number 75 times
+    Then all numbers between 1 and 75 are present
+    And no number has been called more than once
